@@ -1,9 +1,3 @@
-[ui]
-hide_menu = true
-hide_share_button = true
-
-
-
 [browser]
 gatherUsageStats = false
 
