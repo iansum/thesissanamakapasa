@@ -107,7 +107,6 @@ if view_option == 'Upload and Map Data':
 
 elif view_option == 'Apply kmeans':
     st.title("Apply K-means clustering")
-    st.header("Accident location clusters using latitude and longitude")
 
     if st.session_state['data'] is None:
         st.error("Please upload data in the 'Upload and Map Data' view first.")
@@ -117,6 +116,9 @@ elif view_option == 'Apply kmeans':
 
         # --- K-means clustering: Latitude vs Longitude
         if 'latitude' in data.columns and 'longitude' in data.columns:
+            st.header("Accident location clusters using latitude and longitude")
+
+
             # Input for number of clusters
             num_clusters = st.number_input('Select Number of Clusters:', min_value=2, max_value=10, value=3)
 
