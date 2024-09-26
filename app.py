@@ -538,7 +538,9 @@ elif view_option == 'Apply apriori':
                 st.warning("No frequent itemsets found with the selected minimum support.")
             else:
                 st.write("Frequent Itemsets:")
-                st.write(frequent_itemsets)
+                itemsets = frequent_itemsets['itemsets'].apply(lambda x: ', '.join(list(x)) if isinstance(x, frozenset) else x)
+                frequent_combined = pd.concat([frequent_itemsets['support'], itemsets], axis=1)
+                st.write(frequent_combined)
 
                 # Get minimum confidence from user
                 min_confidence = st.slider("Select minimum confidence:", min_value=0.01, max_value=1.0, value=0.5, step=0.01)
@@ -549,8 +551,17 @@ elif view_option == 'Apply apriori':
                 if rules.empty:
                     st.warning("No association rules found with the selected minimum confidence.")
                 else:
+                    # Convert frozensets in 'antecedents' and 'consequents' to lists or strings
+                    antecedent = rules['antecedents'].apply(lambda x: ', '.join(list(x)) if isinstance(x, frozenset) else x)
+                    consequent = rules['consequents'].apply(lambda x: ', '.join(list(x)) if isinstance(x, frozenset) else x)
+
+
+                    association_combined = pd.concat([antecedent, consequent, rules[['support', 'confidence', 'lift']]], axis=1)
+
+
+                    # Display the modified association rules
                     st.write("Association Rules:")
-                    st.write(rules[['antecedents', 'consequents', 'support', 'confidence', 'lift']])
+                    st.write(association_combined)
 
                     # Optional: Visualize the rules using a network graph
                     st.write("Association Rules Network Graph:")
